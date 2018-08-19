@@ -73,7 +73,7 @@ public class AddProfile extends AddProfileDesign {
 		keywords.addComponent(textField);
 	}
 	
-	//reload
+	//reloaded
 	private void stop() {
 		Page.getCurrent().reload();
 	}
