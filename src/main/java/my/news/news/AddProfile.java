@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.AbstractTextField;
@@ -14,15 +15,12 @@ import com.vaadin.ui.TextField;
 
 
 
-public class AddProfile extends AddProfileDesign {
+public class AddProfile extends AddProfileDesign  implements View{
 
 	private Profile profile = new Profile();
-	private MyUI myUI;
 	
-	
-	
-	public AddProfile(MyUI myUI) {
-		this.myUI = myUI;
+	public AddProfile() {
+		
 				
 		save.setClickShortcut(KeyCode.ENTER);
 		save.addClickListener(e -> save());

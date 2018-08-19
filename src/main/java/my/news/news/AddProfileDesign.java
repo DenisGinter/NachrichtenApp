@@ -5,6 +5,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.declarative.Design;
 
@@ -25,6 +26,7 @@ public class AddProfileDesign extends GridLayout {
 	protected GridLayout words;
 	protected GridLayout keywords;
 	protected Button add;
+	protected HorizontalLayout buttons;
 	protected Button save;
 	protected Button stop;
 
