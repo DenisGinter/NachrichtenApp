@@ -2,11 +2,13 @@ package my.news.news;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -23,10 +25,19 @@ public class NewsView extends NewsViewDesign implements View{
 		
 		Layout tab1 = new VerticalLayout(); // Wrap in a layout	
 		Accordion newAccordion = new Accordion();
+		Link link = new Link("Weiterlesen!",
+		        new ExternalResource("https://www.nytimes.com/2018/09/04/us/politics/arizona-senate-mccain.html"));
+		TextField source1 = new TextField();
+		source1.setValue("BBC");
+		source1.setCaption("Quelle:");
+		source1.setReadOnly(true);
 		TextArea textnews1 = new TextArea();
+		textnews1.setCaption("Nachricht: ");
 		textnews1.setValue("Gov. Doug Ducey, who made the selection, was facing a difficult balancing act in trying to please Trump supporters while not alienating McCain’s family and loyalists.");
 		Layout tabnews1 = new VerticalLayout(); // Wrap in a layout
 		tabnews1.addComponent(textnews1);
+		tabnews1.addComponent(source1);
+		tabnews1.addComponent(link);
 		textnews1.setReadOnly(true);
 		newAccordion.addTab(tabnews1,"Jon Kyl, Former Senator, Will Replace McCain in Arizona");
 		TextArea textnews2 = new TextArea();
