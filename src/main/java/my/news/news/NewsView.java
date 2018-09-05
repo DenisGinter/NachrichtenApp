@@ -1,5 +1,14 @@
 package my.news.news;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
@@ -13,6 +22,8 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import elemental.json.Json;
+
 public class NewsView extends NewsViewDesign implements View{
 
 	public NewsView() {	
@@ -22,8 +33,48 @@ public class NewsView extends NewsViewDesign implements View{
 	
 		//newsContainer.addTab(texts, "Nachrichtenprofile 1");
 		//newsContainer.addTab(textss ,"Nachrichtenprofile 2");
-		
-		Layout tab1 = new VerticalLayout(); // Wrap in a layout	
+		ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news"));
+		int i = 0;
+		while ( i < fill.size()) {
+			Layout tab1 = new VerticalLayout(); // Wrap in a layout	
+			Accordion newAccordion = new Accordion();
+			Link link = new Link("Weiterlesen!",
+			        new ExternalResource(fill.get(i)));
+			TextField source1 = new TextField();
+			source1.setValue("BBC");
+			source1.setCaption("Quelle:");
+			source1.setReadOnly(true);
+			TextArea textnews1 = new TextArea();
+			textnews1.setCaption("Nachricht: ");
+			textnews1.setValue(fill.get(i+1));
+			Layout tabnews1 = new VerticalLayout(); // Wrap in a layout
+			tabnews1.addComponent(textnews1);
+			tabnews1.addComponent(source1);
+			tabnews1.addComponent(link);
+			textnews1.setReadOnly(true);
+			newAccordion.addTab(tabnews1, fill.get(i+2));
+			Link link2 = new Link("Weiterlesen!",
+			        new ExternalResource(fill.get(i+3)));
+			TextField source2 = new TextField();
+			source2.setValue("BBC");
+			source2.setCaption("Quelle:");
+			source2.setReadOnly(true);
+			TextArea textnews2 = new TextArea();
+			textnews2.setCaption("Nachricht: ");
+			textnews2.setValue(fill.get(i+4));
+			Layout tabnews2 = new VerticalLayout(); // Wrap in a layout
+			tabnews2.addComponent(textnews2);
+			tabnews2.addComponent(source2);
+			tabnews2.addComponent(link2);
+			textnews2.setReadOnly(true);
+			newAccordion.addTab(tabnews2, fill.get(i+5));
+			
+			tab1.addComponent(newAccordion);
+			newsArea.addTab(tab1,"Profile");
+			
+			i = i +6;
+		}
+		/*Layout tab1 = new VerticalLayout(); // Wrap in a layout	
 		Accordion newAccordion = new Accordion();
 		Link link = new Link("Weiterlesen!",
 		        new ExternalResource("https://www.nytimes.com/2018/09/04/us/politics/arizona-senate-mccain.html"));
@@ -69,6 +120,61 @@ public class NewsView extends NewsViewDesign implements View{
 		tab2.addComponent(newAccordion2);
 		newsArea.addTab(tab2,"Profile 2");	
 		 
-
+		//System.out.println(Json.parse(response.toString()).getArray("articles").getObject(1).getString("author"));*/
 	}
+	public static ArrayList<String> executePost(String targetURL) {
+		  HttpURLConnection connection = null;
+
+		  try {
+		    //Create connection
+		    URL url = new URL(targetURL);
+		    connection = (HttpURLConnection) url.openConnection();
+		    connection.setRequestMethod("GET");
+		    connection.setRequestProperty("Content-Type", 
+		        "application/x-www-form-urlencoded");
+		    connection.addRequestProperty("x-api-key", "4346700d77a84e42891f9c2dfef158bc");
+		    
+		    connection.setRequestProperty("Content-Language", "en-US");  
+
+		    connection.setUseCaches(false);
+		    connection.setDoOutput(true);
+
+		    //Send request
+		    DataOutputStream wr = new DataOutputStream (
+		        connection.getOutputStream());
+		    wr.close();
+
+		    //Get Response  
+		    InputStream is = connection.getInputStream();
+		    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+		    StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
+		    String line;
+		    while ((line = rd.readLine()) != null) {
+		      response.append(line);
+		      response.append('\r');
+		    }
+		    rd.close();
+		    ArrayList<String> a1 = new ArrayList<String>();
+		    int i = 0;
+		    while(i < 4){
+		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("url"));
+		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("description"));
+		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("title"));
+		    	
+		    	
+		    	
+		    	i++;
+		    }
+		  
+		   
+		    return a1;
+		  } catch (Exception e) {
+		    e.printStackTrace();
+		    return null;
+		  } finally {
+		    if (connection != null) {
+		      connection.disconnect();
+		    }
+		  }
+		}
 }
