@@ -33,7 +33,7 @@ public class NewsView extends NewsViewDesign implements View{
 	
 		//newsContainer.addTab(texts, "Nachrichtenprofile 1");
 		//newsContainer.addTab(textss ,"Nachrichtenprofile 2");
-		ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news"));
+		ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=4346700d77a84e42891f9c2dfef158bc"));
 		int i = 0;
 		while ( i < fill.size()) {
 			Layout tab1 = new VerticalLayout(); // Wrap in a layout	
@@ -132,7 +132,7 @@ public class NewsView extends NewsViewDesign implements View{
 		    connection.setRequestMethod("GET");
 		    connection.setRequestProperty("Content-Type", 
 		        "application/x-www-form-urlencoded");
-		    connection.addRequestProperty("x-api-key", "4346700d77a84e42891f9c2dfef158bc");
+		   
 		    
 		    connection.setRequestProperty("Content-Language", "en-US");  
 
