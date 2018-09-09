@@ -104,7 +104,8 @@ public class AddProfile extends AddProfileDesign  implements View{
 			
 			if(sources.getValue()!= null) {
 				ArrayList<String> src = new ArrayList<>();
-				src.add(sources.getValue().toString());
+				src.add(sources.getValue().getId());
+				System.out.println(sources.getValue().getId());
 				profil.setSources(src);
 			}
 			

@@ -45,10 +45,14 @@ if(profiles != null) {
 			
 			
 		//TODO
-			/*ArrayList<String> q1 = new ArrayList<>();
-			q1.add(profiles.get(k).getSources().get(0));*/
+			ArrayList<String> q1 = new ArrayList<>();
+			if(profiles.get(k).getSources() != null) {
+			q1.add(profiles.get(k).getSources().get(0));
+			}else {
+				q1 = null;
+			}
 			
-		ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/top-headlines?language=de&apiKey=4346700d77a84e42891f9c2dfef158bc", profiles.get(k).getTopic(),null , null));
+		ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/top-headlines?language=de&apiKey=4346700d77a84e42891f9c2dfef158bc", profiles.get(k).getTopic(),q1 , null));
 		Layout tab1 = new VerticalLayout(); // Wrap in a layout	
 		Accordion newAccordion = new Accordion();
 		int i = 0;
@@ -207,6 +211,8 @@ if(profiles != null) {
 			}
 			 
 		}
+		}else {
+			System.out.println("src null");
 		}
 		 targetURL = targetURL + "&q="+topic;
 		 System.out.println(targetURL);
