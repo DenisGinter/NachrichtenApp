@@ -19,6 +19,7 @@ public class Profile implements Serializable, Cloneable {
 	private String topic = "";
 
 	private ArrayList<String> words = null;
+	private ArrayList<String> sources = null;
 
 
 	/**
@@ -28,6 +29,14 @@ public class Profile implements Serializable, Cloneable {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public ArrayList<String> getSources() {
+		return sources;
+	}
+
+	public void setSources(ArrayList<String> sources) {
+		this.sources = sources;
 	}
 
 	/**

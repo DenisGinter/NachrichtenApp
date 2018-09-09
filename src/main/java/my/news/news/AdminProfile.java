@@ -16,13 +16,17 @@ import com.vaadin.ui.Button;
 public class AdminProfile extends VerticalLayout implements View {
 	
 	public AdminProfile() {
-		
-		Profile p1 = (Profile) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
+		ArrayList<Profile> p1;
+		p1 =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
 		
 		
 		if(p1 != null) {
+			System.out.println(p1.size());
 			List<String> items = new ArrayList<String>();
-			items.add(p1.getName());
+			
+			for (int i = 0; i < p1.size(); i++) {
+				items.add(p1.get(i).getName());
+			}
 			
 			ComboBox<String> profilList = new ComboBox<String>();
 			profilList.setItems(items);

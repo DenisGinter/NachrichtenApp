@@ -29,6 +29,7 @@ public class AddProfileDesign extends GridLayout {
 	protected HorizontalLayout buttons;
 	protected Button save;
 	protected Button stop;
+	protected ComboBox<my.news.news.Sources> sources;
 
 	public AddProfileDesign() {
 		Design.read(this);
