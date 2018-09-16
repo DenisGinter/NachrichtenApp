@@ -1,9 +1,10 @@
-package my.news.news;
+package my.news.news.client;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
@@ -33,6 +34,18 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
+import my.news.news.AddProfile;
+import my.news.news.AdminProfile;
+import my.news.news.Default;
+import my.news.news.NewsView;
+
+import com.vaadin.client.ui.VLabel;
+import com.vaadin.client.ui.VUI;
+import com.vaadin.client.ui.VVerticalLayout;
+import com.vaadin.client.ui.VButton;
+import com.vaadin.client.ui.VCssLayout;
+import com.vaadin.client.ui.VHorizontalLayout;
+import com.vaadin.client.ui.VMenuBar;
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
  * (or tab) or some part of an HTML page where a Vaadin application is embedded.
@@ -47,16 +60,69 @@ import com.vaadin.ui.themes.ValoTheme;
 	@Meta(name="theme-color", content="#404549")
 })
 @Link(rel="manifest", href="VAADIN/manifest.json")
-public class MyUI extends UI {
-
-	
+public class MyUI extends VHorizontalLayout {
+	 public static final String CLASSNAME = "myui";
+	public MyUI (){
+		
+		
+		VCssLayout viewContainer = new VCssLayout();
+		VCssLayout menu = new VCssLayout();
+		
+		
+		VLabel title1 = new VLabel("Menü");
+		title1.addStyleName(ValoTheme.MENU_TITLE);
+		viewContainer.add(title1);
+		
+		VLabel title = new VLabel("Menü");
+		title.addStyleName(ValoTheme.MENU_TITLE);
+				 
+		VButton addProfileBtn = new VButton();
+		addProfileBtn.setText("Interessenprofile hinzufügen");
+		 //addProfileBtn.addClickHandler(e -> getNavigator().navigateTo("addProfileNav"));
+	    addProfileBtn.addStyleName(ValoTheme.BUTTON_LINK);
+	    
+	    	
+	    
+	    VButton adminProfileBtn = new VButton();
+	    adminProfileBtn.setText("Interessenprofile verwalten");
+		 //addProfileBtn.addClickHandler(e -> getNavigator().navigateTo("addProfileNav"));
+	   
+	    adminProfileBtn.addStyleName(ValoTheme.MENU_ITEM);
+	    
+    	VButton newsViewBtn = new VButton();
+    	newsViewBtn.setText("Nachrichten");
+		 //addProfileBtn.addClickHandler(e -> getNavigator().navigateTo("addProfileNav"));
+    	newsViewBtn.addStyleName(ValoTheme.BUTTON_LINK);
+    	newsViewBtn.addStyleName(ValoTheme.MENU_ITEM);
+	    
+		menu.add(title);
+		menu.add(addProfileBtn);
+		menu.add(adminProfileBtn);
+		menu.add(newsViewBtn);
+		createSlot(menu);
+		createSlot(viewContainer);
+		
+		
+        
+        
+	}
+        
+        /*Navigator navigator = new Navigator(this, viewContainer);
+        navigator.addView("", Default.class);
+        navigator.addView("addProfileNav", AddProfile.class);
+        navigator.addView("adminProfileNav", AdminProfile.class);
+        navigator.addView("newsViewNav", NewsView.class);
+        
+	}
 	
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	
+	
+
+	/*
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
     	
@@ -81,7 +147,7 @@ public class MyUI extends UI {
     	
         setContent(mainLayout);
         
-        Navigator navigator = new Navigator(this, viewContainer);
+        /*Navigator navigator = new Navigator(this, viewContainer);
         navigator.addView("", Default.class);
         navigator.addView("addProfileNav", AddProfile.class);
         navigator.addView("adminProfileNav", AdminProfile.class);
@@ -96,7 +162,7 @@ public class MyUI extends UI {
     	
 		/**
 		 * 
-		 */
+		 
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -109,7 +175,7 @@ public class MyUI extends UI {
 
 				/**
 				 * 
-				 */
+				 
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -118,7 +184,7 @@ public class MyUI extends UI {
 
 						/**
 						 * 
-						 */
+						 
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -149,5 +215,5 @@ public class MyUI extends UI {
 				}
 			});
 		}
-    }
+    }*/
 }
