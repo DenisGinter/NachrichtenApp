@@ -99,8 +99,8 @@ public class MyUI extends VHorizontalLayout {
 		menu.add(addProfileBtn);
 		menu.add(adminProfileBtn);
 		menu.add(newsViewBtn);
-		createSlot(menu);
-		createSlot(viewContainer);
+		add(menu);
+		add(viewContainer);
 		
 		
         
