@@ -12,10 +12,12 @@ import org.vaadin.leif.headertags.HeaderTagHandler;
 import org.vaadin.leif.headertags.Link;
 import org.vaadin.leif.headertags.Meta;
 import org.vaadin.leif.headertags.MetaTags;
+import org.vaadin.teemusa.sidemenu.SideMenu;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.RequestHandler;
 import com.vaadin.server.ServiceException;
@@ -31,6 +33,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -50,7 +53,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class MyUI extends UI {
 
 	
-	
+	private SideMenu sideMenu = new SideMenu();
     /**
 	 * 
 	 */
@@ -69,8 +72,7 @@ public class MyUI extends UI {
     	adminProfileBtn.addStyleNames(ValoTheme.BUTTON_LINK,ValoTheme.MENU_ITEM);
     	Button newsViewBtn = new Button("Nachrichten", e -> getNavigator().navigateTo("newsViewNav"));
     	newsViewBtn.addStyleNames(ValoTheme.BUTTON_LINK,ValoTheme.MENU_ITEM);
-    	
-    	
+    	    	
     	CssLayout menu = new CssLayout(title,addProfileBtn,adminProfileBtn, newsViewBtn);
     	menu.addStyleName(ValoTheme.MENU_ROOT);
     	
@@ -79,14 +81,36 @@ public class MyUI extends UI {
     	HorizontalLayout mainLayout = new HorizontalLayout(menu,viewContainer);
     	mainLayout.setSizeFull();
     	
-        setContent(mainLayout);
+        setContent(sideMenu);
         
-        Navigator navigator = new Navigator(this, viewContainer);
+       /* Navigator navigator = new Navigator(this, sideMenu);
         navigator.addView("", Default.class);
         navigator.addView("addProfileNav", AddProfile.class);
         navigator.addView("adminProfileNav", AdminProfile.class);
-        navigator.addView("newsViewNav", NewsView.class);
-    	
+        navigator.addView("newsViewNav", NewsView.class);*/
+        
+      
+        sideMenu.setMenuCaption("Menü");
+        
+        sideMenu.addMenuItem("Interessensprofile hinzufügen", VaadinIcons.ACCESSIBILITY, () -> {
+			sideMenu.setContent(new AddProfile());
+		});
+        
+        sideMenu.addMenuItem("Interessenprofile verwalten", VaadinIcons.ACCESSIBILITY, () -> {
+			sideMenu.setContent(new AdminProfile());
+		});
+        
+        sideMenu.addMenuItem("Nachrichten", VaadinIcons.ACCESSIBILITY, () -> {
+			sideMenu.setContent(new NewsView());
+		});
+				// Navigator has done its own setup, any menu can be selected.
+				
+
+		
+
+
+		
+        
     }
     
     
