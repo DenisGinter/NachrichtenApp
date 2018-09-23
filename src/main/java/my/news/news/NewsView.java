@@ -1,28 +1,26 @@
 package my.news.news;
 
 import java.io.BufferedReader;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.SynchronousQueue;
 
-import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.ThemeResource;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Accordion;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -58,7 +56,21 @@ if(profiles != null) {
 		int i = 0;
 		while ( i < fill.size()) {
 			
+			Button share = new Button("share");
 			
+			String shareLink = fill.get(i).getUrl();
+			HorizontalLayout popupContent = new HorizontalLayout();
+			TextField linkPopupContent = new TextField();
+			linkPopupContent.setValue(shareLink);
+			Button buttonCopyLink = new Button("Copy");
+			buttonCopyLink.addClickListener(e->copyToClipboard(shareLink));
+			popupContent.addComponents(linkPopupContent,buttonCopyLink);
+			PopupView popupShare = new PopupView(null,popupContent);
+			
+			HorizontalLayout shareHorizontal = new HorizontalLayout();
+			shareHorizontal.addComponents(share,popupShare);
+			share.addClickListener(e -> popupShare.setPopupVisible(true));
+			//share.addClickListener(e -> shareNews(shareLink));
 			Link link = new Link("Weiterlesen!",new ExternalResource(fill.get(i).getUrl()));
 			TextField source = new TextField();
 			source.setValue(fill.get(i).getSource());
@@ -71,6 +83,7 @@ if(profiles != null) {
 			tabnews.addComponent(textnews);
 			tabnews.addComponent(source);
 			tabnews.addComponent(link);
+			tabnews.addComponent(shareHorizontal);	
 			textnews.setReadOnly(true);
 			newAccordion.addTab(tabnews, fill.get(i).getTitle());
 			/*Link link2 = new Link("Weiterlesen!",
@@ -315,4 +328,18 @@ if(profiles != null) {
 		    }
 		  }
 		}
+	
+	private void shareNews(String link){
+		System.out.println(link);
+		
+		JavaScript.getCurrent().execute("if (navigator.share !== undefined){let ttl ='Sample'; let txt ='Just shared';let url='';navigator.share( {title: ttl, text: txt}).then( _ => alert('success')).catch((err) => console.log(err));}else {alert('not supported');} ");
+		//Page.getCurrent().getJavaScript().execute(" navigator.share({title: 'Web Fundamentals',      text: 'Check out Web Fundamentals — it rocks!',     url: 'https://developers.google.com/web',  }) .then(() => console.log('Successful share'))    .catch((error) => console.log('Error sharing', error));");
+	}
+	
+	private void copyToClipboard(String link){
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+	               new StringSelection(link), null
+	          );
+	}
+	
 }

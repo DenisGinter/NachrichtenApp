@@ -105,7 +105,7 @@ public class MyUI extends UI {
 		});
 				// Navigator has done its own setup, any menu can be selected.
 				
-
+        
 		
 
 

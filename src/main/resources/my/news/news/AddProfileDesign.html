@@ -6,71 +6,52 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-grid-layout margin-left>
-   <row>
-    <column>
-     <vaadin-text-field caption="Name Interessensprofile :" _id="name"></vaadin-text-field>
-    </column>
-   </row>
-   <row>
-    <column>
-     <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="java.lang.String" _id="topic">
-      <option item="Sport">Sport</option>
-      <option item="Unterhaltung">Unterhaltung</option>
-      <option item="Finanzen">Finanzen</option>
-     </vaadin-combo-box>
-    </column>
-    <column>
-     <vaadin-combo-box caption="Quellen :" data-item-type="my.news.news.Sources" _id="sources"></vaadin-combo-box>
-    </column>
-   </row>
-   <row>
-    <column>
-     <vaadin-grid-layout spacing margin _id="words">
-      <row>
-       <column>
-        <vaadin-grid-layout caption-as-html caption="Schlüsselwörter :" spacing _id="keywords">
-         <row>
-          <column>
-           <vaadin-text-field></vaadin-text-field>
-          </column>
-         </row>
-         <row>
-          <column>
-           <vaadin-text-field></vaadin-text-field>
-          </column>
-         </row>
-         <row>
-          <column>
-           <vaadin-text-field></vaadin-text-field>
-          </column>
-         </row>
-        </vaadin-grid-layout>
-       </column>
-      </row>
-      <row>
-       <column>
-        <vaadin-button style-name="primary" plain-text _id="add" :middle :right>
-          + 
-        </vaadin-button>
-       </column>
-      </row>
-     </vaadin-grid-layout>
-    </column>
-   </row>
-   <row>
-    <column>
-     <vaadin-horizontal-layout _id="buttons">
-      <vaadin-button style-name="friendly" plain-text _id="save">
-        Speichern 
+  <vaadin-vertical-layout spacing="false" size-auto margin-right="false" margin-top="false" margin-bottom="false">
+   <vaadin-text-field caption="Name Interessensprofile :" _id="name"></vaadin-text-field>
+   <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="java.lang.String" _id="topic">
+    <option item="Test">Test</option>
+    <option item="Unterhaltung">Unterhaltung</option>
+    <option item="Finanzen">Finanzen</option>
+   </vaadin-combo-box>
+   <vaadin-combo-box caption="Quellen :" data-item-type="my.news.news.Sources" _id="sources"></vaadin-combo-box>
+   <vaadin-grid-layout spacing margin _id="words">
+    <row>
+     <column>
+      <vaadin-grid-layout caption-as-html caption="Schlüsselwörter :" spacing _id="keywords">
+       <row>
+        <column>
+         <vaadin-text-field></vaadin-text-field>
+        </column>
+       </row>
+       <row>
+        <column>
+         <vaadin-text-field></vaadin-text-field>
+        </column>
+       </row>
+       <row>
+        <column>
+         <vaadin-text-field></vaadin-text-field>
+        </column>
+       </row>
+      </vaadin-grid-layout>
+     </column>
+    </row>
+    <row>
+     <column>
+      <vaadin-button style-name="primary" plain-text _id="add" :middle :right>
+        + 
       </vaadin-button>
-      <vaadin-button style-name="danger" plain-text _id="stop">
-        Abbrechen 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
-    </column>
-   </row>
-   <row></row>
-  </vaadin-grid-layout>
+     </column>
+    </row>
+   </vaadin-grid-layout>
+   <vaadin-horizontal-layout _id="buttons">
+    <vaadin-button style-name="friendly" plain-text _id="save">
+      Speichern 
+    </vaadin-button>
+    <vaadin-button style-name="danger" plain-text _id="stop">
+      Abbrechen 
+    </vaadin-button>
+   </vaadin-horizontal-layout>
+  </vaadin-vertical-layout>
  </body>
 </html>
