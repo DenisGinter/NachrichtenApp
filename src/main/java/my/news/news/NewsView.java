@@ -37,20 +37,20 @@ public class NewsView extends NewsViewDesign implements View{
 		//newsContainer.addTab(texts, "Nachrichtenprofile 1");
 		//newsContainer.addTab(textss ,"Nachrichtenprofile 2");
 		ArrayList<Profile> profiles =   (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
-if(profiles != null) {
+/*if(profiles != null) {
 		int k = 0;
 		while (k< profiles.size()) {
 			
-			
+		/*	
 		//TODO
 			ArrayList<String> q1 = new ArrayList<>();
 			if(profiles.get(k).getSources() != null) {
 			q1.add(profiles.get(k).getSources().get(0));
 			}else {
 				q1 = null;
-			}
+			}*/
 			
-		ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/top-headlines?language=de&apiKey=4346700d77a84e42891f9c2dfef158bc", profiles.get(k).getTopic(),q1 , null));
+		/*ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/top-headlines?language=de&apiKey=4346700d77a84e42891f9c2dfef158bc", profiles.get(k).getTopic(),q1 , null));
 		Layout tab1 = new VerticalLayout(); // Wrap in a layout	
 		Accordion newAccordion = new Accordion();
 		int i = 0;
@@ -100,7 +100,7 @@ if(profiles != null) {
 			tabnews2.addComponent(source2);
 			tabnews2.addComponent(link2);
 			textnews2.setReadOnly(true);
-			newAccordion.addTab(tabnews2, fill.get(i+5));*/
+			newAccordion.addTab(tabnews2, fill.get(i+5));
 			
 			
 			
@@ -110,7 +110,7 @@ if(profiles != null) {
 		newsArea.addTab(tab1,profiles.get(k).getName());
 		k++;
 		}
-	}
+	}*/
 		/*ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=4346700d77a84e42891f9c2dfef158bc"));
 		
 		int i = 0;

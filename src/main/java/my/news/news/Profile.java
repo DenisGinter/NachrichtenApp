@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A entity object, like in any other Java application. In a typical real world
@@ -19,8 +20,17 @@ public class Profile implements Serializable, Cloneable {
 	private String topic = "";
 
 	private ArrayList<String> words = null;
-	private ArrayList<String> sources = null;
+	private ArrayList<Sources> sources = null;
+	private List<Sources> sourcesUserList = null;
 
+
+	public List<Sources> getSourcesUserList() {
+		return sourcesUserList;
+	}
+
+	public void setSourcesUserList(List<Sources> sourceListUser) {
+		this.sourcesUserList = sourceListUser;
+	}
 
 	/**
 	 * Get the value of name
@@ -31,11 +41,11 @@ public class Profile implements Serializable, Cloneable {
 		return name;
 	}
 
-	public ArrayList<String> getSources() {
+	public ArrayList<Sources> getSources() {
 		return sources;
 	}
 
-	public void setSources(ArrayList<String> sources) {
+	public void setSources(ArrayList<Sources> sources) {
 		this.sources = sources;
 	}
 

@@ -34,6 +34,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -81,6 +82,10 @@ public class MyUI extends UI {
     	HorizontalLayout mainLayout = new HorizontalLayout(menu,viewContainer);
     	mainLayout.setSizeFull();
     	
+    	
+    	
+    	
+    	
         setContent(sideMenu);
         
        /* Navigator navigator = new Navigator(this, sideMenu);
@@ -112,6 +117,8 @@ public class MyUI extends UI {
 		
         
     }
+	
+	
     
     
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

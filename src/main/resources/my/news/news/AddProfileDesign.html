@@ -6,31 +6,34 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout spacing="false" size-auto margin-right="false" margin-top="false" margin-bottom="false">
+  <vaadin-vertical-layout size-auto margin-right="false" margin-top="false" margin-bottom="false">
    <vaadin-text-field caption="Name Interessensprofile :" _id="name"></vaadin-text-field>
    <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="java.lang.String" _id="topic">
     <option item="Test">Test</option>
     <option item="Unterhaltung">Unterhaltung</option>
     <option item="Finanzen">Finanzen</option>
    </vaadin-combo-box>
-   <vaadin-combo-box caption="Quellen :" data-item-type="my.news.news.Sources" _id="sources"></vaadin-combo-box>
+   <vaadin-check-box-group width="261px" data-item-type="my.news.news.Sources" _id="sources"></vaadin-check-box-group>
+   <vaadin-button plain-text _id="btnAddSrc">
+     Quelle hinzufügen 
+   </vaadin-button>
    <vaadin-grid-layout spacing margin _id="words">
     <row>
      <column>
       <vaadin-grid-layout caption-as-html caption="Schlüsselwörter :" spacing _id="keywords">
        <row>
         <column>
-         <vaadin-text-field></vaadin-text-field>
+         <vaadin-text-field _id="text1"></vaadin-text-field>
         </column>
        </row>
        <row>
         <column>
-         <vaadin-text-field></vaadin-text-field>
+         <vaadin-text-field _id="text2"></vaadin-text-field>
         </column>
        </row>
        <row>
         <column>
-         <vaadin-text-field></vaadin-text-field>
+         <vaadin-text-field _id="text3"></vaadin-text-field>
         </column>
        </row>
       </vaadin-grid-layout>
