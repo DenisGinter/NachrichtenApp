@@ -17,7 +17,16 @@ public class Profile implements Serializable, Cloneable {
 
 	private String name= "";
 
-	private String topic = "";
+	private String topic = null;
+	private String language = null;
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	private ArrayList<String> words = null;
 	private ArrayList<Sources> sources = null;

@@ -7,6 +7,7 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
@@ -24,7 +25,8 @@ import com.vaadin.ui.declarative.Design;
 @SuppressWarnings("serial")
 public class AddProfileDesign extends VerticalLayout {
 	protected TextField name;
-	protected ComboBox<java.lang.String> topic;
+	protected ComboBox<my.news.news.Sources> topic;
+	protected NativeSelect<my.news.news.Sources> language;
 	protected CheckBoxGroup<my.news.news.Sources> sources;
 	protected Button btnAddSrc;
 	protected GridLayout words;

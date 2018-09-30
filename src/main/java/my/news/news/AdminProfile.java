@@ -2,40 +2,46 @@ package my.news.news;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 
 public class AdminProfile extends VerticalLayout implements View {
 	
+	ComboBox<Profile> profilList = new ComboBox<Profile>();
+	
 	public AdminProfile() {
-		ArrayList<Profile> p1;
-		p1 =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
+		ArrayList<Profile> profileList;
+		profileList =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
 				
-		if(p1 != null) {
-			System.out.println(p1.size());
+		if(profileList != null) {
 			List<String> items = new ArrayList<String>();
 			
-			for (int i = 0; i < p1.size(); i++) {
-				items.add(p1.get(i).getName());
+			for (int i = 0; i < profileList.size(); i++) {
+				items.add(profileList.get(i).getName());
 			}
 			
-			ComboBox<Profile> profilList = new ComboBox<Profile>();
-			profilList.setItems(p1);
+			
+			profilList.setItems(profileList);
 			profilList.setItemCaptionGenerator(Profile::getName);
 			profilList.setEmptySelectionAllowed(false);
-			profilList.setSelectedItem(p1.get(0));
+			profilList.setSelectedItem(profileList.get(0));
 			addComponent(profilList);
 			
 			AddProfile addProfileView = new AddProfile();
 			Optional<Profile> selectedProfile = profilList.getSelectedItem();
+		
 			
 			selection(addProfileView,selectedProfile);
 			
@@ -58,14 +64,32 @@ public class AdminProfile extends VerticalLayout implements View {
 	}
 	
 	private void selection(AddProfile currentProfile, Optional<Profile> selectedProfile) {
-		
-		currentProfile.topic.setValue(selectedProfile.get().getTopic());
+	
+		currentProfile.setSourceListUser(selectedProfile.get().getSourcesUserList());
 		currentProfile.name.setValue(selectedProfile.get().getName());
 		
+		for (Sources src : currentProfile.getSourceTopicList()) {
+			if (selectedProfile.get().getTopic().equals(src.getCategory())) {
+				currentProfile.topic.setValue(src);
+				break;
+			}
+		}	
+		
+		for (Sources src : currentProfile.getSourceLanguageList()) {
+			if (selectedProfile.get().getLanguage().equals(src.getLanguage())) {
+				currentProfile.language.setValue(src);
+				break;
+			}
+		}	
+		
+		for (Sources src : selectedProfile.get().getSourcesUserList()) {
+			currentProfile.sources.select(src);	
+		}
+		
+				
 		int count = 0;
 		for (String component : selectedProfile.get().getWords()) {
 			if(count < 3) {
-				System.out.println("counasdt: "+ count);
 				TextField textFieldKey = (TextField) currentProfile.keywords.getComponent(0, count);
 				textFieldKey.setValue(component);
 			}else {
@@ -73,10 +97,7 @@ public class AdminProfile extends VerticalLayout implements View {
 				textFieldKeyNew.setValue(component);
 				currentProfile.keywords.addComponent(textFieldKeyNew);
 			}
-			
-			
 			count++;
-			System.out.println(count);
 		}
 		
 		
@@ -92,4 +113,7 @@ public class AdminProfile extends VerticalLayout implements View {
 		VaadinService.getCurrentRequest().getWrappedSession().removeAttribute("Profile");		
 		Page.getCurrent().reload();
 	}
+	
+	
+	
 }

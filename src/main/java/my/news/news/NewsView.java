@@ -25,32 +25,28 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import android.R.bool;
 import elemental.json.Json;
 
 public class NewsView extends NewsViewDesign implements View{
 
 	public NewsView() {	
        
-		//nachrichten1.setValue("Nachrichten text Test 1");
-		//nachrichten2.setValue("Nachrichten text Test 2");
-	
-		//newsContainer.addTab(texts, "Nachrichtenprofile 1");
-		//newsContainer.addTab(textss ,"Nachrichtenprofile 2");
 		ArrayList<Profile> profiles =   (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
-/*if(profiles != null) {
-		int k = 0;
-		while (k< profiles.size()) {
+		if(profiles != null) {
+			int k = 0;
+			while (k< profiles.size()) {
 			
-		/*	
+		
 		//TODO
-			ArrayList<String> q1 = new ArrayList<>();
+			ArrayList<Sources> sources = new ArrayList<>();
 			if(profiles.get(k).getSources() != null) {
-			q1.add(profiles.get(k).getSources().get(0));
+			sources.addAll(profiles.get(k).getSources());
 			}else {
-				q1 = null;
-			}*/
+				sources = null;
+			}
 			
-		/*ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/top-headlines?language=de&apiKey=4346700d77a84e42891f9c2dfef158bc", profiles.get(k).getTopic(),q1 , null));
+		ArrayList<NewsObject> fill = new ArrayList<NewsObject>(getNews("https://newsapi.org/v2/everything?apiKey=4346700d77a84e42891f9c2dfef158bc", sources , profiles.get(k).getWords()));
 		Layout tab1 = new VerticalLayout(); // Wrap in a layout	
 		Accordion newAccordion = new Accordion();
 		int i = 0;
@@ -86,21 +82,7 @@ public class NewsView extends NewsViewDesign implements View{
 			tabnews.addComponent(shareHorizontal);	
 			textnews.setReadOnly(true);
 			newAccordion.addTab(tabnews, fill.get(i).getTitle());
-			/*Link link2 = new Link("Weiterlesen!",
-			        new ExternalResource(fill.get(i)));
-			TextField source2 = new TextField();
-			source2.setValue("BBC");
-			source2.setCaption("Quelle:");
-			source2.setReadOnly(true);
-			TextArea textnews2 = new TextArea();
-			textnews2.setCaption("Nachricht: ");
-			textnews2.setValue(fill.get(i+4));
-			Layout tabnews2 = new VerticalLayout(); // Wrap in a layout
-			tabnews2.addComponent(textnews2);
-			tabnews2.addComponent(source2);
-			tabnews2.addComponent(link2);
-			textnews2.setReadOnly(true);
-			newAccordion.addTab(tabnews2, fill.get(i+5));
+			
 			
 			
 			
@@ -110,7 +92,8 @@ public class NewsView extends NewsViewDesign implements View{
 		newsArea.addTab(tab1,profiles.get(k).getName());
 		k++;
 		}
-	}*/
+		newsArea.setSizeFull();
+	}
 		/*ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=4346700d77a84e42891f9c2dfef158bc"));
 		
 		int i = 0;
@@ -202,32 +185,44 @@ public class NewsView extends NewsViewDesign implements View{
 		//System.out.println(Json.parse(response.toString()).getArray("articles").getObject(1).getString("author"));*/
 	}
 	
-	public static ArrayList<NewsObject> getNews(String targetURL, String topic, ArrayList<String> sources, ArrayList<String> keyWords){
-		 
-		/*System.out.println(keyWords.size());
-		 for (int i = 0; i < keyWords.size(); i++) {
-			 if(i == 0) {
-				 targetURL = targetURL + "&q="+keyWords.get(i);
-			 }else {
-				 targetURL = targetURL + "&q="+keyWords.get(i);
-			}
-			 
-		}*/
+	public static ArrayList<NewsObject> getNews(String targetURL, ArrayList<Sources> sources, ArrayList<String> keyWords){
+		boolean firstadd = true;
+		boolean firstaddString = true;
+		int pagesize = 100;
+		targetURL = targetURL + "&pageSize="+pagesize;
 		if(sources != null) {
-		for (int i = 0; i < sources.size(); i++) {
-			 if(i == 0) {
-				 System.out.println(sources.get(i));
-				 targetURL = targetURL + "&sources="+sources.get(i);
-			 }else {
-				 targetURL = targetURL + "&sources="+sources.get(i);
-				 System.out.println(sources.get(i));
+		for (int i = 0; i < sources.size() && i < 20; i++) {
+			if (sources.get(i).getId() == "all") {
+				continue;
 			}
-			 
+			 if(firstadd == true) {
+				 System.out.println(sources.get(i).getId());
+				 targetURL = targetURL + "&sources="+sources.get(i).getId();
+				 firstadd = false;
+			 }else {
+				 targetURL = targetURL + ","+sources.get(i).getId();
+				 System.out.println(sources.get(i).getId());
+			}
 		}
 		}else {
-			System.out.println("src null");
+			System.out.println("src null ");
 		}
-		 targetURL = targetURL + "&q="+topic;
+		
+		
+		if (!keyWords.isEmpty()) {
+			for (String string : keyWords) {
+				if (firstaddString == true) {
+				targetURL = targetURL + "&q="+ string;	
+				firstaddString = false;
+				}else {
+					targetURL = targetURL + "%20OR%20"+ string;
+				}
+				
+			}
+		}
+		
+		
+		 
 		 System.out.println(targetURL);
 		 
 		 try {
@@ -256,14 +251,20 @@ public class NewsView extends NewsViewDesign implements View{
 				System.out.println(Json.parse(response.toString()).getArray("articles").length());
 			    int i = 0;
 			    while(i < Json.parse(response.toString()).getArray("articles").length()){
-			    	String title = Json.parse(response.toString()).getArray("articles").getObject(i).getString("title");
-			    	String url = Json.parse(response.toString()).getArray("articles").getObject(i).getString("url");
-			    	String description = Json.parse(response.toString()).getArray("articles").getObject(i).getString("description");
-			    	String source = Json.parse(response.toString()).getArray("articles").getObject(i).getObject("source").getString("name");
-			    	
-			    	NewsObject newObj = new NewsObject(title, url, description, source);
-			    	newsList.add(newObj);
- 	
+			    	try {
+			    		System.out.println(i);
+				    	String title = Json.parse(response.toString()).getArray("articles").getObject(i).getString("title");
+				    	String url = Json.parse(response.toString()).getArray("articles").getObject(i).getString("url");
+				    	String description = Json.parse(response.toString()).getArray("articles").getObject(i).getString("description");
+				    	String source = Json.parse(response.toString()).getArray("articles").getObject(i).getObject("source").getString("name");
+				    	
+				    	NewsObject newObj = new NewsObject(title, url, description, source);
+				    	newsList.add(newObj);
+	 	
+					} catch (Exception e) {
+						System.out.println("Error parsing Json String");
+						
+					}
 			    	i++;
 			    }
 				//print result
@@ -311,9 +312,7 @@ public class NewsView extends NewsViewDesign implements View{
 		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("url"));
 		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("description"));
 		    	a1.add(Json.parse(response.toString()).getArray("articles").getObject(i).getString("title"));
-		    	
-		    	
-		    	
+
 		    	i++;
 		    }
 		  

@@ -8,11 +8,8 @@
  <body>
   <vaadin-vertical-layout size-auto margin-right="false" margin-top="false" margin-bottom="false">
    <vaadin-text-field caption="Name Interessensprofile :" _id="name"></vaadin-text-field>
-   <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="java.lang.String" _id="topic">
-    <option item="Test">Test</option>
-    <option item="Unterhaltung">Unterhaltung</option>
-    <option item="Finanzen">Finanzen</option>
-   </vaadin-combo-box>
+   <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="my.news.news.Sources" _id="topic"></vaadin-combo-box>
+   <vaadin-native-select caption-as-html caption="Sprache :" data-item-type="my.news.news.Sources" _id="language"></vaadin-native-select>
    <vaadin-check-box-group width="261px" data-item-type="my.news.news.Sources" _id="sources"></vaadin-check-box-group>
    <vaadin-button plain-text _id="btnAddSrc">
      Quelle hinzufügen 
