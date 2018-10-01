@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.vaadin.data.provider.DataProvider;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
@@ -254,6 +256,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 			}
 			}
 			setLanguage(sourceList);
+			
 		}else {
 				while( i < sourceList.size()) {
 					if (sourceList.get(i).getCategory().equals(optional.get().getCategory())) {
@@ -289,7 +292,8 @@ public class AddProfile extends AddProfileDesign  implements View{
 		List<Sources> basisList = new ArrayList<Sources>();
 		if(language.getSelectedItem().get() == allSource) {
 			if(topic.getSelectedItem().get() == allSource) {
-					basisList.addAll(sourceList);	
+					basisList.addAll(sourceList);
+					setSourceItemDiasable(basisList);
 			}else {
 					while( i < sourceList.size()) {
 					if (sourceList.get(i).getCategory().equals(topic.getSelectedItem().get().getCategory())) {
@@ -301,6 +305,9 @@ public class AddProfile extends AddProfileDesign  implements View{
 			
 			setTopic(sourceList);
 			changeBasisLanguageSources(sourceList);
+			if (topic.getSelectedItem().get() == allSource) {
+				setSourceItemDiasable(basisList);
+			}
 		}else {System.out.println(sourceList.size());
 				while( i < sourceList.size()) {
 				if (sourceList.get(i).getLanguage().equals(optional.get().getLanguage())) {
@@ -310,7 +317,9 @@ public class AddProfile extends AddProfileDesign  implements View{
 			}
 		changeBasisLanguageSources(basisList);
 		setTopic(basisList);
-		
+		if (topic.getSelectedItem().get() == allSource) {
+			setSourceItemDiasable(basisList);
+		}
 		for (Sources sources : basisList) {
 			System.out.println(sources.getName());
 		}
@@ -325,15 +334,18 @@ public class AddProfile extends AddProfileDesign  implements View{
 				
 			}
 		}
-		setSourceItemDiasable(basisList);
 		
+		if (topic.getSelectedItem().get() != allSource) {
+			setSourceItemDiasable(basisList);
+		}
 		
 	}
 	
 	private void changeBasisLanguageSources(List<Sources> basisList) {
 		System.out.println(basisList.size());
-		
-		addSourceTwinSelect.setItems(basisList);
+		ArrayList<Sources> arraylist = new ArrayList<>();
+		arraylist.addAll(basisList);
+		addSourceTwinSelect.setItems(arraylist);
 		
 	}
 	
@@ -353,8 +365,9 @@ public class AddProfile extends AddProfileDesign  implements View{
 		sources.setItems(helpList);
 		
 		List<String> idSourceList =  sourceList.stream().map(o -> o.getId()).collect(Collectors.toList());
-		List<String> idBasisList =  basisList.stream().map(o -> o.getId()).collect(Collectors.toList());
-		
+		List<String> idBasisList = new ArrayList<>();
+		idBasisList.addAll(basisList.stream().map(o -> o.getId()).collect(Collectors.toList()));
+		System.out.println(idBasisList.size());
 		
 		sources.setItemEnabledProvider(item -> idSourceList.contains(item.getId()) || item.getId() == allSource.getId());
 		sources.setItemEnabledProvider(item -> idBasisList.contains(item.getId()) || item.getId() == allSource.getId());
