@@ -566,20 +566,10 @@ public class AddProfile extends AddProfileDesign  implements View{
 			message.show(Page.getCurrent());
 			
 		}else {
-			boolean contin = true;
-			ArrayList<Profile> profileListCheck =(ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
-			if (profileListCheck != null) {
-				for (Profile profile : profileListCheck) {
-				if (profile.getName().equals(name.getValue())) {
-					@SuppressWarnings("deprecation")
-					Notification message = new Notification("Interessensprofile mit diesem Namen existiert bereits",Notification.TYPE_WARNING_MESSAGE);
-					message.show(Page.getCurrent());
-					contin = false;
-				}
-			}
-			}
 			
-			if (contin) {
+			
+			
+			
 			Profile profil = new Profile();			
 			profil.setName(name.getValue());
 			profil.setTopic(topic.getValue().getCategory());
@@ -672,8 +662,23 @@ public class AddProfile extends AddProfileDesign  implements View{
 				
 				message.setCaption("Interessenpofile geändert");
 			}
-			else {			
-				profiles.add(profil);	
+			else {		
+				boolean stop = false;
+				ArrayList<Profile> profileListCheck =(ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
+				if (profileListCheck != null) {
+					for (Profile profile : profileListCheck) {
+					if (profile.getName().equals(name.getValue())) {
+						@SuppressWarnings("deprecation")
+						Notification messagee = new Notification("Interessensprofile mit diesem Namen existiert bereits",Notification.TYPE_WARNING_MESSAGE);
+						messagee.show(Page.getCurrent());
+						stop = true;
+					}
+				}
+				}
+				if (!stop) {
+					profiles.add(profil);
+				}
+					
 			}
 			
 			VaadinService.getCurrentRequest().getWrappedSession().setAttribute("Profile", profiles);	
@@ -683,7 +688,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 				
 			}
 			
-		}
+		
 
 	}
 	
