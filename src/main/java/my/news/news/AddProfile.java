@@ -333,10 +333,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 	private void changeBasisLanguageSources(List<Sources> basisList) {
 		System.out.println(basisList.size());
 		
-		
 		addSourceTwinSelect.setItems(basisList);
-		
-		
 		
 	}
 	
