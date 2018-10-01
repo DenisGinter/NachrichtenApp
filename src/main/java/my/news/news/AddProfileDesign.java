@@ -30,9 +30,11 @@ public class AddProfileDesign extends VerticalLayout {
 	protected CheckBoxGroup<my.news.news.Sources> sources;
 	protected Button btnAddSrc;
 	protected GridLayout words;
-	protected GridLayout keywords;
+	protected VerticalLayout keywords;
 	protected TextField text1;
+	protected NativeSelect<java.lang.String> textSelect1;
 	protected TextField text2;
+	protected NativeSelect<java.lang.String> textSelect2;
 	protected TextField text3;
 	protected Button add;
 	protected HorizontalLayout buttons;

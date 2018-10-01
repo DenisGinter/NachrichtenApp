@@ -18,6 +18,8 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
+
 import org.vaadin.teemusa.sidemenu.SideMenu;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -32,6 +34,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
@@ -39,64 +42,133 @@ import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import android.R.id;
 import elemental.json.Json;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AddProfile.
+ */
 public class AddProfile extends AddProfileDesign  implements View{
 
+	/** The profil. */
 	private Profile profil = new Profile();
+	
+	/** The source list. */
 	private List<Sources> sourceList = new ArrayList<>();
+	
+	/** The source topic list. */
 	private List<Sources> sourceTopicList = new ArrayList<>();
+	
+	/** The source language list. */
 	private List<Sources> sourceLanguageList = new ArrayList<>();
+	
+	/** The source disabled. */
 	private List<String> sourceDisabled = new ArrayList<>();
+	
+	/**
+	 * Gets the source topic list.
+	 *
+	 * @return the source topic list
+	 */
 	public List<Sources> getSourceTopicList() {
 		return sourceTopicList;
 	}
 
 
+	/**
+	 * Sets the source topic list.
+	 *
+	 * @param sourceTopicList the new source topic list
+	 */
 	public void setSourceTopicList(List<Sources> sourceTopicList) {
 		this.sourceTopicList = sourceTopicList;
 	}
 
 
+	/**
+	 * Gets the source language list.
+	 *
+	 * @return the source language list
+	 */
 	public List<Sources> getSourceLanguageList() {
 		return sourceLanguageList;
 	}
 
 
+	/**
+	 * Sets the source language list.
+	 *
+	 * @param sourceLanguageList the new source language list
+	 */
 	public void setSourceLanguageList(List<Sources> sourceLanguageList) {
 		this.sourceLanguageList = sourceLanguageList;
 	}
 
+	/** The source list user. */
 	private List<Sources>sourceListUser = new ArrayList<>();
+	
+	/** The source list user all. */
 	private List<Sources>sourceListUserAll = new ArrayList<>();
+	
+	/** The all selected. */
 	private boolean allSelected = false;
+	
+	/**
+	 * Gets the source list user.
+	 *
+	 * @return the source list user
+	 */
 	public List<Sources> getSourceListUser() {
 		return sourceListUser;
 	}
 
 
+	/**
+	 * Sets the source list user.
+	 *
+	 * @param sourceListUser the new source list user
+	 */
 	public void setSourceListUser(List<Sources> sourceListUser) {
 		this.sourceListUser = sourceListUser;
 	}
 
+	/** The add source twin select. */
 	protected TwinColSelect<Sources> addSourceTwinSelect = new TwinColSelect<Sources>();
+	
+	/** The profile. */
 	private Profile profile;
+	
+	/** The profiles. */
 	private ArrayList<Profile> profiles;
+	
+	/** The all source. */
 	private Sources allSource = new Sources("all", "ALL", "All", "all");
 	
+	/**
+	 * Gets the all source.
+	 *
+	 * @return the all source
+	 */
 	public Sources getAllSource() {
 		return allSource;
 	}
 
 
+	/**
+	 * Sets the all source.
+	 *
+	 * @param allSource the new all source
+	 */
 	public void setAllSource(Sources allSource) {
 		this.allSource = allSource;
 	}
 
 
+	/**
+	 * Instantiates a new adds the profile.
+	 */
 	public AddProfile() {
 		
 		/*if(VaadinService.getCurrentRequest().getWrappedSession().getAttribute("sourceList")!=null) {
@@ -138,7 +210,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 			sources.setCaption("Keine Quellen verfügbar");
 		}
 		
-		
+
 		addSourceTwinSelect.setItems(sourceList);
 		addSourceTwinSelect.setItemCaptionGenerator(Sources::getName);
 		
@@ -153,6 +225,9 @@ public class AddProfile extends AddProfileDesign  implements View{
 
 	}
 	
+	/**
+	 * Sources selection change.
+	 */
 	private void sourcesSelectionChange() {
 		List<String> selection = sources.getSelectedItems().stream().map(o -> o.getId()).collect(Collectors.toList());
 			if (selection.contains(allSource.getId()) && !allSelected) {
@@ -178,6 +253,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 	}
 
 
+	/**
+	 * Change basis topic.
+	 *
+	 * @param optional the optional
+	 */
 	private void changeBasisTopic(Optional<Sources> optional) {
 		int i = 0;
 		List<Sources> basisList = new ArrayList<Sources>();
@@ -218,6 +298,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 		//topic.setItems(sourceTopicList);
 	}
 	
+	/**
+	 * Change basis language.
+	 *
+	 * @param optional the optional
+	 */
 	private void changeBasisLanguage(Optional<Sources> optional) {
 		int i = 0;
 		List<Sources> basisList = new ArrayList<Sources>();
@@ -255,6 +340,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 		
 	}
 	
+	/**
+	 * Sets the source item diasable.
+	 *
+	 * @param basisList the new source item diasable
+	 */
 	private void setSourceItemDiasable (List<Sources> basisList) {
 		sources.clear();
 		
@@ -278,6 +368,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 		//sources.setItemEnabledProvider(item -> basisList.contains(item.getId()) || item == allSource );
 	}
 	
+	/**
+	 * Sets the topic.
+	 *
+	 * @param basisList the new topic
+	 */
 	private void setTopic (List<Sources> basisList) {
 		sourceTopicList.clear();
 		sourceTopicList.add(allSource);
@@ -300,6 +395,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 		
 	}
 	
+	/**
+	 * Sets the language.
+	 *
+	 * @param basisList the new language
+	 */
 	private void setLanguage (List<Sources> basisList) {
 		sourceLanguageList.clear();
 		sourceLanguageList.add(allSource);
@@ -323,6 +423,9 @@ public class AddProfile extends AddProfileDesign  implements View{
 	}
 
 
+	/**
+	 * Adds the source.
+	 */
 	private void addSource() {
 		
 		Window addSourceWindow = new Window("Quellen");
@@ -357,6 +460,11 @@ public class AddProfile extends AddProfileDesign  implements View{
 		
 	}
 	
+	/**
+	 * Adds the source selection.
+	 *
+	 * @param sourceListUserNew the source list user new
+	 */
 	private void addSourceSelection(Set<Sources> sourceListUserNew) {
 				Set<Sources> selectedItems = sources.getSelectedItems();
 				List<Sources> basisList = new ArrayList<Sources>();
@@ -381,6 +489,12 @@ public class AddProfile extends AddProfileDesign  implements View{
 	}
 
 
+	/**
+	 * Gets the sources.
+	 *
+	 * @param targetURL the target URL
+	 * @return the sources
+	 */
 	public static List<Sources> getSources(String targetURL){
 		 
 		 
@@ -430,10 +544,13 @@ public class AddProfile extends AddProfileDesign  implements View{
 			
 	}
 	
+	/**
+	 * Save.
+	 */
 	private void save() {
 	
-		if(topic.getValue() == null || name.getValue().isEmpty() ) {
-			Notification message = new Notification("Interessensprofile muss Name und Themenbereich besitzen",Notification.TYPE_WARNING_MESSAGE);
+		if(topic.getValue() == null || name.getValue().isEmpty() || sources.getSelectedItems().isEmpty() ) {
+			Notification message = new Notification("Interessensprofile muss Name, Themenbereich und Quellen besitzen",Notification.TYPE_WARNING_MESSAGE);
 			message.show(Page.getCurrent());
 			
 		}else {
@@ -451,15 +568,66 @@ public class AddProfile extends AddProfileDesign  implements View{
 			}
 			
 			ArrayList<String> arraywords = new ArrayList<String>();
-			Iterator<Component> iterate = keywords.iterator();
-			while(iterate.hasNext()) {
-				String nextword = ((AbstractTextField) iterate.next()).getValue();
-				if(!nextword.isEmpty()) {
-				arraywords.add(nextword);
-				}
-			}
+			boolean ableWord = false;
+			boolean ableLogic = true;
+			for (int i = 0; i < keywords.getComponentCount(); i++) {
+				String nextword = null;
 			
+				 Component a = keywords.getComponent(i);
+				
+				 if (a instanceof TextField ) {
+					 TextField txtfield1 = (TextField) a;
+					
+					 String txtValue = txtfield1.getValue();
+					
+					 if (!txtValue.isEmpty()) {
+							 if (arraywords.isEmpty()) {
+						
+						
+							 arraywords.add(txtValue);
+							 
+						 }else { 
+							 
+							 if (ableWord ) {
+								 arraywords.add(txtValue);
+								 ableWord = false;
+								 ableLogic = true;
+								 System.out.println("Logic set: "+ableLogic);
+							}
+	
+						 }
+						}
+					
+					}else {
+						if (arraywords.isEmpty())continue;				
+						if (ableLogic) {
+							@SuppressWarnings("unchecked")
+								NativeSelect<String> nativeSelect = (NativeSelect<String>) a;
+								nextword = nativeSelect.getValue();
+								arraywords.add(nextword);
+								ableWord = true;
+								ableLogic =false;
+								System.out.println("Able logic "+ableLogic);
+						}
+					  
+					}
+						 
+							
+							 
+						
+						
+						 }
+				if (ableWord) {
+					arraywords.remove(arraywords.size()-1);
+				}
+				 
+				
+				 
+				
 			profil.setWords(arraywords);
+			
+			
+			
 			
 			profiles =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");	
 			Notification message = new Notification("Interessensprofile gespeichert",Notification.TYPE_HUMANIZED_MESSAGE);
@@ -492,16 +660,25 @@ public class AddProfile extends AddProfileDesign  implements View{
 	}
 	
 	
-	private void add() {
+	/**
+	 * Adds the.
+	 */
+	public void add() {
 		/*Profile p1 = (Profile) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
 		Notification message = new Notification("Profile "+p1.getName(),Notification.TYPE_WARNING_MESSAGE);
 		message.show(Page.getCurrent());*/
 		
 		TextField textField = new TextField();
-		
-		keywords.addComponent(textField);
+		NativeSelect<String> nativeSelect = new NativeSelect<String>();
+		nativeSelect.setItems("OR","AND","NOT");
+		nativeSelect.setValue("OR");
+		nativeSelect.setEmptySelectionAllowed(false);
+		keywords.addComponents(nativeSelect,textField);
 	}
 	
+	/**
+	 * Stop.
+	 */
 	//reloaded
 	private void stop() {
 		Page.getCurrent().reload();

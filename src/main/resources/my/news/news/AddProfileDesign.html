@@ -6,7 +6,7 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout size-auto margin-right="false" margin-top="false" margin-bottom="false">
+  <vaadin-vertical-layout size-auto margin-right="false" margin-top="false">
    <vaadin-text-field caption="Name Interessensprofile :" _id="name"></vaadin-text-field>
    <vaadin-combo-box caption-as-html caption="Themenbereich :" data-item-type="my.news.news.Sources" _id="topic"></vaadin-combo-box>
    <vaadin-native-select caption-as-html caption="Sprache :" data-item-type="my.news.news.Sources" _id="language"></vaadin-native-select>
@@ -17,23 +17,21 @@
    <vaadin-grid-layout spacing margin _id="words">
     <row>
      <column>
-      <vaadin-grid-layout caption-as-html caption="Schlüsselwörter :" spacing _id="keywords">
-       <row>
-        <column>
-         <vaadin-text-field _id="text1"></vaadin-text-field>
-        </column>
-       </row>
-       <row>
-        <column>
-         <vaadin-text-field _id="text2"></vaadin-text-field>
-        </column>
-       </row>
-       <row>
-        <column>
-         <vaadin-text-field _id="text3"></vaadin-text-field>
-        </column>
-       </row>
-      </vaadin-grid-layout>
+      <vaadin-vertical-layout caption-as-html caption="Schlüsselwörter :" size-auto margin="false" _id="keywords">
+       <vaadin-text-field _id="text1"></vaadin-text-field>
+       <vaadin-native-select empty-selection-allowed="false" data-item-type="java.lang.String" _id="textSelect1">
+        <option item="OR" selected>OR</option>
+        <option item="AND">AND</option>
+        <option item="NOT">NOT</option>
+       </vaadin-native-select>
+       <vaadin-text-field _id="text2"></vaadin-text-field>
+       <vaadin-native-select empty-selection-allowed="false" data-item-type="java.lang.String" _id="textSelect2">
+        <option item="OR" selected>OR</option>
+        <option item="AND">AND</option>
+        <option item="NOT">NOT</option>
+       </vaadin-native-select>
+       <vaadin-text-field _id="text3"></vaadin-text-field>
+      </vaadin-vertical-layout>
      </column>
     </row>
     <row>

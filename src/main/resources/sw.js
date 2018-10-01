@@ -5,7 +5,8 @@ var filesToCache = [
   './',
   //'./VAADIN/themes/mytheme/styles.css?v=7.7.6',
   './VAADIN/js/app.js',
-  //'./VAADIN/images/vaadinlogo-192x192.png'
+  './VAADIN/images/vaadinlogo-192x192.png'
+  //'./VAADIN/images/vaadinlogo-512x512.png'
 ];
 
 self.oninstall = function(event) {

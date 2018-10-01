@@ -25,7 +25,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import android.R.bool;
+
 import elemental.json.Json;
 
 public class NewsView extends NewsViewDesign implements View{
@@ -82,6 +82,8 @@ public class NewsView extends NewsViewDesign implements View{
 			tabnews.addComponent(shareHorizontal);	
 			textnews.setReadOnly(true);
 			newAccordion.addTab(tabnews, fill.get(i).getTitle());
+			newAccordion.setResponsive(true);
+			newAccordion.setStyleName("flexwrap");
 			
 			
 			
@@ -94,95 +96,7 @@ public class NewsView extends NewsViewDesign implements View{
 		}
 		newsArea.setSizeFull();
 	}
-		/*ArrayList<String> fill = new ArrayList<String>(executePost("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=4346700d77a84e42891f9c2dfef158bc"));
 		
-		int i = 0;
-		while ( i < fill.size()) {
-			Layout tab1 = new VerticalLayout(); // Wrap in a layout	
-			Accordion newAccordion = new Accordion();
-			Link link = new Link("Weiterlesen!",
-			        new ExternalResource(fill.get(i)));
-			TextField source1 = new TextField();
-			source1.setValue("BBC");
-			source1.setCaption("Quelle:");
-			source1.setReadOnly(true);
-			TextArea textnews1 = new TextArea();
-			textnews1.setCaption("Nachricht: ");
-			textnews1.setValue(fill.get(i+1));
-			Layout tabnews1 = new VerticalLayout(); // Wrap in a layout
-			tabnews1.addComponent(textnews1);
-			tabnews1.addComponent(source1);
-			tabnews1.addComponent(link);
-			textnews1.setReadOnly(true);
-			newAccordion.addTab(tabnews1, fill.get(i+2));
-			Link link2 = new Link("Weiterlesen!",
-			        new ExternalResource(fill.get(i+3)));
-			TextField source2 = new TextField();
-			source2.setValue("BBC");
-			source2.setCaption("Quelle:");
-			source2.setReadOnly(true);
-			TextArea textnews2 = new TextArea();
-			textnews2.setCaption("Nachricht: ");
-			textnews2.setValue(fill.get(i+4));
-			Layout tabnews2 = new VerticalLayout(); // Wrap in a layout
-			tabnews2.addComponent(textnews2);
-			tabnews2.addComponent(source2);
-			tabnews2.addComponent(link2);
-			textnews2.setReadOnly(true);
-			newAccordion.addTab(tabnews2, fill.get(i+5));
-			
-			tab1.addComponent(newAccordion);
-			newsArea.addTab(tab1,"Profile");
-			
-			i = i +6;
-		}*/
-		/*Layout tab1 = new VerticalLayout(); // Wrap in a layout	
-		Accordion newAccordion = new Accordion();
-		Link link = new Link("Weiterlesen!",
-		        new ExternalResource("https://www.nytimes.com/2018/09/04/us/politics/arizona-senate-mccain.html"));
-		TextField source1 = new TextField();
-		source1.setValue("BBC");
-		source1.setCaption("Quelle:");
-		source1.setReadOnly(true);
-		TextArea textnews1 = new TextArea();
-		textnews1.setCaption("Nachricht: ");
-		textnews1.setValue("Gov. Doug Ducey, who made the selection, was facing a difficult balancing act in trying to please Trump supporters while not alienating McCain’s family and loyalists.");
-		Layout tabnews1 = new VerticalLayout(); // Wrap in a layout
-		tabnews1.addComponent(textnews1);
-		tabnews1.addComponent(source1);
-		tabnews1.addComponent(link);
-		textnews1.setReadOnly(true);
-		newAccordion.addTab(tabnews1,"Jon Kyl, Former Senator, Will Replace McCain in Arizona");
-		TextArea textnews2 = new TextArea();
-		textnews2.setValue("Anybody who’s ever published even the slightest of critiques of Tesla’s Elon Musk can probably relate to this response from his supporters: “Don’t try to understand a mindset you will never have.");
-		Layout tabnews2 = new VerticalLayout(); // Wrap in a layout
-		tabnews2.addComponent(textnews2);
-		textnews2.setReadOnly(true);
-		newAccordion.addTab(tabnews2,"Poll: Elon Musk fans are the worst");
-		
-		tab1.addComponent(newAccordion);
-		newsArea.addTab(tab1,"Profile 1");	
-		
-				
-		Layout tab2 = new VerticalLayout(); // Wrap in a layout
-		Accordion newAccordion2 = new Accordion();
-		TextArea textnews3 = new TextArea();
-		textnews3.setValue("The Mercedes-Benz EQC will be the brand's first all-electric production model SUV. It will go on sale in the United States in 2020.");
-		Layout tabnews3 = new VerticalLayout(); // Wrap in a layout
-		tabnews3.addComponent(textnews3);
-		textnews3.setReadOnly(true);
-		newAccordion2.addTab(tabnews3,"Mercedes-Benz reveals its first all-electric SUV");
-		TextArea textnews4 = new TextArea();
-		textnews4.setValue("American factory activity in August expanded at the strongest pace in more than 14 years, despite rising tensions with some of the U.S.’s largest trade partners.");
-		Layout tabnews4 = new VerticalLayout(); // Wrap in a layout
-		tabnews4.addComponent(textnews4);
-		textnews4.setReadOnly(true);
-		newAccordion2.addTab(tabnews4,"US Factory Sector Clocks Strongest Growth in 14 Years");
-		
-		tab2.addComponent(newAccordion2);
-		newsArea.addTab(tab2,"Profile 2");	
-		 
-		//System.out.println(Json.parse(response.toString()).getArray("articles").getObject(1).getString("author"));*/
 	}
 	
 	public static ArrayList<NewsObject> getNews(String targetURL, ArrayList<Sources> sources, ArrayList<String> keyWords){
@@ -211,11 +125,14 @@ public class NewsView extends NewsViewDesign implements View{
 		
 		if (!keyWords.isEmpty()) {
 			for (String string : keyWords) {
+				
+				if(string ==" ") continue; 
 				if (firstaddString == true) {
 				targetURL = targetURL + "&q="+ string;	
 				firstaddString = false;
 				}else {
-					targetURL = targetURL + "%20OR%20"+ string;
+					
+					targetURL = targetURL + "%20"+ string;
 				}
 				
 			}
@@ -252,7 +169,7 @@ public class NewsView extends NewsViewDesign implements View{
 			    int i = 0;
 			    while(i < Json.parse(response.toString()).getArray("articles").length()){
 			    	try {
-			    		System.out.println(i);
+			    		
 				    	String title = Json.parse(response.toString()).getArray("articles").getObject(i).getString("title");
 				    	String url = Json.parse(response.toString()).getArray("articles").getObject(i).getString("url");
 				    	String description = Json.parse(response.toString()).getArray("articles").getObject(i).getString("description");

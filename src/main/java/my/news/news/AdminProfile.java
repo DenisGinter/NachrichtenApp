@@ -11,6 +11,7 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -89,13 +90,31 @@ public class AdminProfile extends VerticalLayout implements View {
 				
 		int count = 0;
 		for (String component : selectedProfile.get().getWords()) {
-			if(count < 3) {
-				TextField textFieldKey = (TextField) currentProfile.keywords.getComponent(0, count);
-				textFieldKey.setValue(component);
+			if(count < 5) {
+				if(count%2 == 0) {
+				TextField textFieldKey = (TextField) currentProfile.keywords.getComponent(count);
+				textFieldKey.setValue(component);	
+				}else {
+					@SuppressWarnings("unchecked")
+					NativeSelect<String> nativeSelect = (NativeSelect<String>) currentProfile.keywords.getComponent(count);
+					nativeSelect.setValue(component);
+				}
+				
 			}else {
-				TextField textFieldKeyNew = new TextField();
-				textFieldKeyNew.setValue(component);
-				currentProfile.keywords.addComponent(textFieldKeyNew);
+				if(count%2 == 0) {
+					TextField textFieldKeyNew = new TextField();
+					textFieldKeyNew.setValue(component);
+					currentProfile.keywords.addComponent(textFieldKeyNew);
+					}else {
+						
+						NativeSelect<String> nativeSelectNew = new NativeSelect<String>();
+						nativeSelectNew.setItems("OR","AND","NOT");
+						nativeSelectNew.setValue(component);
+						currentProfile.keywords.addComponent(nativeSelectNew);
+					}
+				
+				
+				
 			}
 			count++;
 		}

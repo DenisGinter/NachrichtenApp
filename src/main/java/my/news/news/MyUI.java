@@ -97,15 +97,15 @@ public class MyUI extends UI {
       
         sideMenu.setMenuCaption("Menü");
         
-        sideMenu.addMenuItem("Interessensprofile hinzufügen", VaadinIcons.ACCESSIBILITY, () -> {
+        sideMenu.addMenuItem("Interessensprofile hinzufügen", VaadinIcons.PLUS_CIRCLE, () -> {
 			sideMenu.setContent(new AddProfile());
 		});
         
-        sideMenu.addMenuItem("Interessenprofile verwalten", VaadinIcons.ACCESSIBILITY, () -> {
+        sideMenu.addMenuItem("Interessenprofile verwalten", VaadinIcons.TOOLS, () -> {
 			sideMenu.setContent(new AdminProfile());
 		});
         
-        sideMenu.addMenuItem("Nachrichten", VaadinIcons.ACCESSIBILITY, () -> {
+        sideMenu.addMenuItem("Nachrichten", VaadinIcons.NEWSPAPER, () -> {
 			sideMenu.setContent(new NewsView());
 		});
 				// Navigator has done its own setup, any menu can be selected.
