@@ -98,33 +98,17 @@ public class NewsView extends NewsViewDesign implements View{
 			tabnews.addComponent(shareHorizontal);	
 			
 			newAccordion.addTab(tabnews, fill.get(i).getTitle());
-			
-			//share.setSizeFull();
-			//popupContent.setSizeFull();
-			//linkPopupContent.setSizeFull();
-			//buttonCopyLink.setSizeFull();
-			//popupShare.setSizeFull();
-			//shareHorizontal.setSizeFull();
-			//link.setSizeFull();
-			//textnews.setPrimaryStyleName();
-			//tabnews.setWidth("200px");
-			
-			//textnews.setWordWrap(true);
-			//newAccordion.setSizeFull();
-			
-			
-			
+
 			
 			i++;
 		}
 		tab1.addComponent(newAccordion);
-		//tab1.setSizeFull();
+		
 		newsArea.addTab(tab1,profiles.get(k).getName());
 		
 		k++;
 		}
-			
-		//newsArea.setSizeFull();
+
 		
 	}
 		
