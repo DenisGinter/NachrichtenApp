@@ -18,7 +18,6 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.RequestHandler;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
@@ -27,16 +26,14 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
+// TODO: Auto-generated Javadoc
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
  * (or tab) or some part of an HTML page where a Vaadin application is embedded.
@@ -54,13 +51,16 @@ import com.vaadin.ui.themes.ValoTheme;
 public class MyUI extends UI {
 
 	
+	/** The side menu. */
 	private SideMenu sideMenu = new SideMenu();
-    /**
-	 * 
-	 */
+    
+    /** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 
+	/* (non-Javadoc)
+	 * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
+	 */
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
     	
@@ -111,7 +111,7 @@ public class MyUI extends UI {
 				// Navigator has done its own setup, any menu can be selected.
 				
         
-		
+		sideMenu.setContent(new AddProfile());
 
 
 		
@@ -121,15 +121,19 @@ public class MyUI extends UI {
 	
     
     
+    /**
+     * The Class MyUIServlet.
+     */
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = true)
     public static class MyUIServlet extends VaadinServlet {
     	
-		/**
-		 * 
-		 */
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
+		/* (non-Javadoc)
+		 * @see com.vaadin.server.VaadinServlet#servletInitialized()
+		 */
 		@Override
 		protected void servletInitialized() throws ServletException {
 			super.servletInitialized();

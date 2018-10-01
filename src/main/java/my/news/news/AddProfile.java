@@ -1,42 +1,27 @@
 package my.news.news;
 
 
+import java.awt.Component.BaselineResizeBehavior;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TooManyListenersException;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
-
-import org.vaadin.teemusa.sidemenu.SideMenu;
+import java.util.stream.Stream;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
-import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.AbstractMultiSelect;
-import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.ItemCaptionGenerator;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.VerticalLayout;
@@ -52,9 +37,11 @@ import elemental.json.Json;
  */
 public class AddProfile extends AddProfileDesign  implements View{
 
-	/** The profil. */
-	private Profile profil = new Profile();
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The source list. */
 	private List<Sources> sourceList = new ArrayList<>();
 	
@@ -109,9 +96,6 @@ public class AddProfile extends AddProfileDesign  implements View{
 	/** The source list user. */
 	private List<Sources>sourceListUser = new ArrayList<>();
 	
-	/** The source list user all. */
-	private List<Sources>sourceListUserAll = new ArrayList<>();
-	
 	/** The all selected. */
 	private boolean allSelected = false;
 	
@@ -136,9 +120,6 @@ public class AddProfile extends AddProfileDesign  implements View{
 
 	/** The add source twin select. */
 	protected TwinColSelect<Sources> addSourceTwinSelect = new TwinColSelect<Sources>();
-	
-	/** The profile. */
-	private Profile profile;
 	
 	/** The profiles. */
 	private ArrayList<Profile> profiles;
@@ -317,15 +298,23 @@ public class AddProfile extends AddProfileDesign  implements View{
 					i++;
 				}
 			}
+			
 			setTopic(sourceList);
-		}else {
+			changeBasisLanguageSources(sourceList);
+		}else {System.out.println(sourceList.size());
 				while( i < sourceList.size()) {
 				if (sourceList.get(i).getLanguage().equals(optional.get().getLanguage())) {
 					basisList.add(sourceList.get(i));
 				}
 				i++;
 			}
+		changeBasisLanguageSources(basisList);
 		setTopic(basisList);
+		
+		for (Sources sources : basisList) {
+			System.out.println(sources.getName());
+		}
+		System.out.println(basisList.size());
 		int k = 0;
 			while( k < basisList.size()) {
 				if (!basisList.get(k).getCategory().equals(optional.get().getCategory())) {
@@ -337,6 +326,17 @@ public class AddProfile extends AddProfileDesign  implements View{
 			}
 		}
 		setSourceItemDiasable(basisList);
+		
+		
+	}
+	
+	private void changeBasisLanguageSources(List<Sources> basisList) {
+		System.out.println(basisList.size());
+		
+		
+		addSourceTwinSelect.setItems(basisList);
+		
+		
 		
 	}
 	
@@ -547,13 +547,29 @@ public class AddProfile extends AddProfileDesign  implements View{
 	/**
 	 * Save.
 	 */
+	@SuppressWarnings("unchecked")
 	private void save() {
 	
 		if(topic.getValue() == null || name.getValue().isEmpty() || sources.getSelectedItems().isEmpty() ) {
+			@SuppressWarnings("deprecation")
 			Notification message = new Notification("Interessensprofile muss Name, Themenbereich und Quellen besitzen",Notification.TYPE_WARNING_MESSAGE);
 			message.show(Page.getCurrent());
 			
 		}else {
+			boolean contin = true;
+			ArrayList<Profile> profileListCheck =(ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
+			if (profileListCheck != null) {
+				for (Profile profile : profileListCheck) {
+				if (profile.getName().equals(name.getValue())) {
+					@SuppressWarnings("deprecation")
+					Notification message = new Notification("Interessensprofile mit diesem Namen existiert bereits",Notification.TYPE_WARNING_MESSAGE);
+					message.show(Page.getCurrent());
+					contin = false;
+				}
+			}
+			}
+			
+			if (contin) {
 			Profile profil = new Profile();			
 			profil.setName(name.getValue());
 			profil.setTopic(topic.getValue().getCategory());
@@ -601,8 +617,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 					}else {
 						if (arraywords.isEmpty())continue;				
 						if (ableLogic) {
-							@SuppressWarnings("unchecked")
-								NativeSelect<String> nativeSelect = (NativeSelect<String>) a;
+							NativeSelect<String> nativeSelect = (NativeSelect<String>) a;
 								nextword = nativeSelect.getValue();
 								arraywords.add(nextword);
 								ableWord = true;
@@ -630,6 +645,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 			
 			
 			profiles =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");	
+			@SuppressWarnings("deprecation")
 			Notification message = new Notification("Interessensprofile gespeichert",Notification.TYPE_HUMANIZED_MESSAGE);
 			
 			if(profiles == null) {
@@ -654,6 +670,8 @@ public class AddProfile extends AddProfileDesign  implements View{
 			
 			message.setDelayMsec(1500);
 			message.show(Page.getCurrent());	
+				
+			}
 			
 		}
 

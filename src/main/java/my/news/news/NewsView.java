@@ -1,8 +1,8 @@
 package my.news.news;
 
-import java.io.BufferedReader;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
@@ -25,13 +24,25 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-
 import elemental.json.Json;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NewsView.
+ */
 public class NewsView extends NewsViewDesign implements View{
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Instantiates a new news view.
+	 */
 	public NewsView() {	
        
+	
+		
+		@SuppressWarnings("unchecked")
 		ArrayList<Profile> profiles =   (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
 		if(profiles != null) {
 			int k = 0;
@@ -56,12 +67,14 @@ public class NewsView extends NewsViewDesign implements View{
 			
 			String shareLink = fill.get(i).getUrl();
 			HorizontalLayout popupContent = new HorizontalLayout();
+			
 			TextField linkPopupContent = new TextField();
 			linkPopupContent.setValue(shareLink);
 			Button buttonCopyLink = new Button("Copy");
 			buttonCopyLink.addClickListener(e->copyToClipboard(shareLink));
 			popupContent.addComponents(linkPopupContent,buttonCopyLink);
 			PopupView popupShare = new PopupView(null,popupContent);
+			
 			
 			HorizontalLayout shareHorizontal = new HorizontalLayout();
 			shareHorizontal.addComponents(share,popupShare);
@@ -74,16 +87,30 @@ public class NewsView extends NewsViewDesign implements View{
 			source.setReadOnly(true);
 			TextArea textnews = new TextArea();
 			textnews.setCaption("Nachricht: ");
-			textnews.setValue(fill.get(i).getDescription());
+			textnews.setReadOnly(true);
+			textnews.setWidth("250px");
+			textnews.setValue(fill.get(i).getDescription());			
 			Layout tabnews = new VerticalLayout(); // Wrap in a layout
+			
 			tabnews.addComponent(textnews);
 			tabnews.addComponent(source);
 			tabnews.addComponent(link);
 			tabnews.addComponent(shareHorizontal);	
-			textnews.setReadOnly(true);
+			
 			newAccordion.addTab(tabnews, fill.get(i).getTitle());
-			newAccordion.setResponsive(true);
-			newAccordion.setStyleName("flexwrap");
+			
+			//share.setSizeFull();
+			//popupContent.setSizeFull();
+			//linkPopupContent.setSizeFull();
+			//buttonCopyLink.setSizeFull();
+			//popupShare.setSizeFull();
+			//shareHorizontal.setSizeFull();
+			//link.setSizeFull();
+			//textnews.setPrimaryStyleName();
+			//tabnews.setWidth("200px");
+			
+			//textnews.setWordWrap(true);
+			//newAccordion.setSizeFull();
 			
 			
 			
@@ -91,14 +118,26 @@ public class NewsView extends NewsViewDesign implements View{
 			i++;
 		}
 		tab1.addComponent(newAccordion);
+		//tab1.setSizeFull();
 		newsArea.addTab(tab1,profiles.get(k).getName());
+		
 		k++;
 		}
-		newsArea.setSizeFull();
+			
+		//newsArea.setSizeFull();
+		
 	}
 		
 	}
 	
+	/**
+	 * Gets the news.
+	 *
+	 * @param targetURL the target URL
+	 * @param sources the sources
+	 * @param keyWords the key words
+	 * @return the news
+	 */
 	public static ArrayList<NewsObject> getNews(String targetURL, ArrayList<Sources> sources, ArrayList<String> keyWords){
 		boolean firstadd = true;
 		boolean firstaddString = true;
@@ -195,6 +234,13 @@ public class NewsView extends NewsViewDesign implements View{
 		 
 			
 	}
+	
+	/**
+	 * Execute post.
+	 *
+	 * @param targetURL the target URL
+	 * @return the array list
+	 */
 	public static ArrayList<String> executePost(String targetURL) {
 		  HttpURLConnection connection = null;
 
@@ -245,6 +291,12 @@ public class NewsView extends NewsViewDesign implements View{
 		  }
 		}
 	
+	/**
+	 * Share news.
+	 *
+	 * @param link the link
+	 */
+	@SuppressWarnings("unused")
 	private void shareNews(String link){
 		System.out.println(link);
 		
@@ -252,6 +304,11 @@ public class NewsView extends NewsViewDesign implements View{
 		//Page.getCurrent().getJavaScript().execute(" navigator.share({title: 'Web Fundamentals',      text: 'Check out Web Fundamentals — it rocks!',     url: 'https://developers.google.com/web',  }) .then(() => console.log('Successful share'))    .catch((error) => console.log('Error sharing', error));");
 	}
 	
+	/**
+	 * Copy to clipboard.
+	 *
+	 * @param link the link
+	 */
 	private void copyToClipboard(String link){
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
 	               new StringSelection(link), null

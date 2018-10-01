@@ -2,26 +2,28 @@ package my.news.news;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.Button;
 
 public class AdminProfile extends VerticalLayout implements View {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ComboBox<Profile> profilList = new ComboBox<Profile>();
 	
+	@SuppressWarnings("unchecked")
 	public AdminProfile() {
 		ArrayList<Profile> profileList;
 		profileList =  (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
@@ -47,7 +49,7 @@ public class AdminProfile extends VerticalLayout implements View {
 			selection(addProfileView,selectedProfile);
 			
 			Button deleteBtn = new Button("Löschen");
-			deleteBtn.addClickListener(e->delete());
+			deleteBtn.addClickListener(e->delete(profilList.getSelectedItem()));
 		
 			addProfileView.addComponent(deleteBtn);
 			addComponent(addProfileView);
@@ -128,8 +130,22 @@ public class AdminProfile extends VerticalLayout implements View {
 		
 	}
 
-	private void delete() {
-		VaadinService.getCurrentRequest().getWrappedSession().removeAttribute("Profile");		
+	/**
+	 * Delete.
+	 *
+	 * @param selectedProfile the selected profile
+	 */
+	private void delete(Optional<Profile> selectedProfile) {
+		//VaadinService.getCurrentRequest().getWrappedSession().removeAttribute("Profile");		
+		@SuppressWarnings("unchecked")
+		ArrayList<Profile> profileList = (ArrayList<Profile>) VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Profile");
+		for (Profile profile : profileList) {
+			if (profile.getName().equals(selectedProfile.get().getName())) {
+				profileList.remove(profile);
+			}
+		}
+		
+		VaadinService.getCurrentRequest().getWrappedSession().setAttribute("Profile", profileList);
 		Page.getCurrent().reload();
 	}
 	
