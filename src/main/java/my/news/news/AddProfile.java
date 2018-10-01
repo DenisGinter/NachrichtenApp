@@ -308,7 +308,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 			if (topic.getSelectedItem().get() == allSource) {
 				setSourceItemDiasable(basisList);
 			}
-		}else {System.out.println(sourceList.size());
+		}else {
 				while( i < sourceList.size()) {
 				if (sourceList.get(i).getLanguage().equals(optional.get().getLanguage())) {
 					basisList.add(sourceList.get(i));
@@ -320,10 +320,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 		if (topic.getSelectedItem().get() == allSource) {
 			setSourceItemDiasable(basisList);
 		}
-		for (Sources sources : basisList) {
-			System.out.println(sources.getName());
-		}
-		System.out.println(basisList.size());
+		
 		int k = 0;
 			while( k < basisList.size()) {
 				if (!basisList.get(k).getCategory().equals(optional.get().getCategory())) {
@@ -342,7 +339,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 	}
 	
 	private void changeBasisLanguageSources(List<Sources> basisList) {
-		System.out.println(basisList.size());
+		
 		ArrayList<Sources> arraylist = new ArrayList<>();
 		arraylist.addAll(basisList);
 		addSourceTwinSelect.setItems(arraylist);
@@ -367,7 +364,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 		List<String> idSourceList =  sourceList.stream().map(o -> o.getId()).collect(Collectors.toList());
 		List<String> idBasisList = new ArrayList<>();
 		idBasisList.addAll(basisList.stream().map(o -> o.getId()).collect(Collectors.toList()));
-		System.out.println(idBasisList.size());
+		
 		
 		sources.setItemEnabledProvider(item -> idSourceList.contains(item.getId()) || item.getId() == allSource.getId());
 		sources.setItemEnabledProvider(item -> idBasisList.contains(item.getId()) || item.getId() == allSource.getId());
@@ -608,7 +605,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 								 arraywords.add(txtValue);
 								 ableWord = false;
 								 ableLogic = true;
-								 System.out.println("Logic set: "+ableLogic);
+								
 							}
 	
 						 }
@@ -622,7 +619,7 @@ public class AddProfile extends AddProfileDesign  implements View{
 								arraywords.add(nextword);
 								ableWord = true;
 								ableLogic =false;
-								System.out.println("Able logic "+ableLogic);
+								
 						}
 					  
 					}

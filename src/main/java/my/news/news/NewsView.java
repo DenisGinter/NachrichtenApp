@@ -133,12 +133,12 @@ public class NewsView extends NewsViewDesign implements View{
 				continue;
 			}
 			 if(firstadd == true) {
-				 System.out.println(sources.get(i).getId());
+				
 				 targetURL = targetURL + "&sources="+sources.get(i).getId();
 				 firstadd = false;
 			 }else {
 				 targetURL = targetURL + ","+sources.get(i).getId();
-				 System.out.println(sources.get(i).getId());
+				
 			}
 		}
 		}else {
@@ -188,7 +188,7 @@ public class NewsView extends NewsViewDesign implements View{
 				in.close();
 				
 				ArrayList<NewsObject> newsList = new ArrayList<NewsObject>();
-				System.out.println(Json.parse(response.toString()).getArray("articles").length());
+				
 			    int i = 0;
 			    while(i < Json.parse(response.toString()).getArray("articles").length()){
 			    	try {
